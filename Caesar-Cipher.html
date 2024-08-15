@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caesar Cipher Application</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            resize: vertical;
+        }
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Caesar Cipher</h2>
+        <textarea id="inputText" placeholder="Enter your text here..." rows="4"></textarea>
+        <input type="number" id="shift" placeholder="Enter shift value" min="1" max="25">
+        <button onclick="encrypt()">Encrypt</button>
+        <button onclick="decrypt()">Decrypt</button>
+        <textarea id="outputText" placeholder="Result will appear here..." rows="4" readonly></textarea>
+    </div>
+
+    <script>
+        function caesarCipher(text, shift, encrypt = true) {
+            const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            shift = encrypt ? shift : -shift;
+            return text.toUpperCase().split('').map(char => {
+                const index = alphabet.indexOf(char);
+                if (index === -1) return char;
+                let newIndex = (index + shift) % 26;
+                if (newIndex < 0) newIndex += 26;
+                return alphabet[newIndex];
+            }).join('');
+        }
+
+        function encrypt() {
+            const text = document.getElementById('inputText').value;
+            const shift = parseInt(document.getElementById('shift').value);
+            const result = caesarCipher(text, shift);
+            document.getElementById('outputText').value = result;
+        }
+
+        function decrypt() {
+            const text = document.getElementById('inputText').value;
+            const shift = parseInt(document.getElementById('shift').value);
+            const result = caesarCipher(text, shift, false);
+            document.getElementById('outputText').value = result;
+        }
+    </script>
+</body>
+</html>
